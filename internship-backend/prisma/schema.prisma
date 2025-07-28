@@ -1,0 +1,48 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+
+model User {
+  id           String   @id @default(uuid())
+  name         String
+  email        String   @unique
+  username     String   @unique
+  phone        String?
+  schoolNumber String?
+  grade        Int?
+  faculty      String?
+  department   String?
+  password     String
+  role         Role     @default(STUDENT)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  internships  Internship[]
+}
+
+enum Role {
+  STUDENT
+  COORDINATOR
+}
+
+model Internship {
+  id            String   @id @default(uuid())
+  userId        String
+  type          String   // gönüllü / zorunlu
+  status        String   // pending / approved / rejected
+  startDate     DateTime
+  endDate       DateTime
+  documents     Json
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  user          User     @relation(fields: [userId], references: [id])
+}
