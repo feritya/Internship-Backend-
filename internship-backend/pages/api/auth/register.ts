@@ -1,9 +1,13 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from '@prisma/client'
 import bcrypt from 'bcryptjs';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-const prisma = new PrismaClient();
-
+let prisma: PrismaClient;
+try {
+  prisma = new PrismaClient();
+} catch (error) {
+  console.error('PrismaClient oluşturulurken hata:', error);
+}
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
     return res.status(405).json({ message: 'Method not allowed' });
@@ -54,7 +58,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     return res.status(201).json({ message: 'Kayıt başarılı', user: { id: newUser.id, email: newUser.email } });
   } catch (error) {
-    console.error(error);
+    console.error('❌ API hatası:', error);
     return res.status(500).json({ message: 'Sunucu hatası', error });
   }
 }

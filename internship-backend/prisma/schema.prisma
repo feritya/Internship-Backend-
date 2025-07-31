@@ -1,6 +1,5 @@
 generator client {
   provider = "prisma-client-js"
-  output   = "../generated/prisma"
 }
 
 datasource db {
@@ -34,15 +33,34 @@ enum Role {
 }
 
 model Internship {
-  id            String   @id @default(uuid())
-  userId        String
-  type          String   // gönüllü / zorunlu
-  status        String   // pending / approved / rejected
-  startDate     DateTime
-  endDate       DateTime
-  documents     Json
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  id                      String   @id @default(uuid())
+  userId                  String
+  type                    InternshipType
+  status                  InternshipStatus
 
-  user          User     @relation(fields: [userId], references: [id])
+  internshipFormUrl       String
+  unemploymentFormUrl     String
+  healthFormUrl           String
+
+  internshipFormStatus    InternshipStatus @default(PENDING)
+  unemploymentFormStatus  InternshipStatus @default(PENDING)
+  healthFormStatus        InternshipStatus @default(PENDING)
+
+  startDate               DateTime
+  endDate                 DateTime
+
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @updatedAt
+  user                    User     @relation(fields: [userId], references: [id])
+}
+
+enum InternshipType {
+  VOLUNTARY
+  COMPULSORY
+}
+
+enum InternshipStatus {
+  PENDING
+  APPROVED
+  REJECTED
 }
