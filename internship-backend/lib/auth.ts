@@ -2,6 +2,9 @@
 import jwt from 'jsonwebtoken';
 
 const SECRET = process.env.JWT_SECRET || 'supersecretkey';
+export function isCoordinator(decoded: any) {
+  return decoded?.role === 'COORDINATOR';
+}
 
 export function verifyToken(token: string) {
   try {
