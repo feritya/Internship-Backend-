@@ -1,77 +1,101 @@
-# 📚 Internship Management Backend
+# 🎓 IMU Internship Management Backend
 
-Bu proje, üniversite staj başvuru ve yönetim sürecini dijitalleştirmek için geliştirilmiş bir **Node.js / Next.js API backend** uygulamasıdır. Veritabanı olarak **NeonDB + Prisma** kullanılmıştır.
-
----
-
-## 🚀 Kullanılan Teknolojiler
-
-- Next.js API Routes (Backend)
-- Prisma ORM
-- Neon PostgreSQL (NeonDB)
-- JWT Authentication
-- Nodemailer (SMTP üzerinden e-posta gönderimi)
+Bu proje, İstanbul Medeniyet Üniversitesi öğrencilerinin staj başvuru ve onay süreçlerini dijitalleştirmek amacıyla geliştirilmiş bir **Next.js API backend** uygulamasıdır. Veritabanı olarak **NeonDB** kullanılmış, veri erişimi için **Prisma ORM**, kimlik doğrulama için **JWT**, e-posta işlemleri için **Nodemailer** tercih edilmiştir.
 
 ---
 
-## 👥 Kullanıcı Rolleri
+## 🚀 Teknolojiler
 
-- **Öğrenci (STUDENT)**: Kayıt olur, staj başvurusu yapar, belgelerini yükler.
-- **Sorumlu (COORDINATOR)**: Başvuruları onaylar/red eder, öğrencileri inceler.
+- ✅ Next.js API Routes (Backend)
+- ✅ Prisma ORM (Veri Modelleme & DB Erişimi)
+- ✅ Neon PostgreSQL (NeonDB)
+- ✅ JWT tabanlı Authentication
+- ✅ Nodemailer ile SMTP üzerinden e-posta gönderimi
+
+---
+
+## 👤 Kullanıcı Rolleri
+
+- 🎓 **STUDENT** – Kayıt olur, giriş yapar, profilini yönetir, staj başvurusunda bulunur, belgeleri yükler/günceller.
+- 🧑‍🏫 **COORDINATOR** – Başvuruları inceler, belgeleri onaylar veya reddeder, öğrenci ve staj istatistiklerini görüntüler.
 
 ---
 
 ## 🔐 Authentication Özellikleri
 
-- ✅ Kullanıcı Kaydı (Register)
-- ✅ Giriş Yapma (Login)
-- ✅ JWT tabanlı token doğrulama
-- ✅ Şifre Değiştirme (Login sonrası)
-- ✅ Şifremi Unuttum (E-posta ile otomatik şifre gönderimi)
+- ✅ Kayıt Ol (Register)
+- ✅ Giriş Yap (Login)
+- ✅ JWT Token ile kimlik doğrulama
+- ✅ Şifre Değiştirme
+- ✅ Şifremi Unuttum (E-posta ile yeni şifre gönderimi)
+- ✅ Güvenli token kontrolü (Authorization Header üzerinden)
 
 ---
 
-## 📂 Endpoints (Tamamlananlar)
+## 📚 Öğrenci Özellikleri
 
-| Endpoint                      | Method | Açıklama                         |
-|------------------------------|--------|----------------------------------|
-| /api/auth/register                            | POST   | Yeni kullanıcı kaydı            |
-| /api/auth/login                                | POST   | Giriş yapma                     |
-| /api/auth/change-password           | PATCH  | Şifre değiştirme (JWT ile)      |
-| /api/auth/forgot-password             | POST    | şifremi unuttum      |
-| /api/profile                                      | GET    | Profil bilgileri + stajlar      |
+- ✅ Profilini görüntüleme ve güncelleme
+- ✅ Zorunlu / Gönüllü staj başvurusu yapma
+- ✅ Başvuru belgelerini yükleme ve gerektiğinde güncelleme
+- ✅ Geçmiş staj başvurularını görüntüleme
 
 ---
 
+## 🧑‍🏫 Koordinatör (Admin) Özellikleri
 
-```env
-DATABASE_URL="postgresql://neondb_owner:npg_vuZD6m5VHoFb@ep-still-violet-a2fz3tys-pooler.eu-central-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
+- ✅ Tüm başvuruları listeleme
+- ✅ Belge onayı / red işlemleri (ve öğrenciye e-posta bildirimi)
+- ✅ Başvuru ve öğrenci detaylarını görüntüleme
+- ✅ Dashboard: toplam başvuru sayısı, onaylı/red/beklemede olanlar vs.
 
-JWT_SECRET=supersecretkey
-SMTP_HOST=smtp.gmail.com
-SMTP_PORT=587
-SMTP_USER=yasarferit13@gmail.com
-SMTP_PASS=ltbvviqcqgqroicy
+---
 
-⏭️ Sonraki Adımlar
-🔜 Şifremi Unuttum (Yeni şifreyi e-posta ile gönderme)
+## 📂 API Endpoint Listesi
 
-🔜 Staj Başvurusu (Zorunlu / Gönüllü belgelerle)
+| Endpoint                                  | Method | Açıklama                                      |
+|-------------------------------------------|--------|-----------------------------------------------|
+| /api/auth/register                        | POST   | Yeni kullanıcı kaydı                          |
+| /api/auth/login                           | POST   | Giriş yapma                                   |
+| /api/auth/forgot-password                 | POST   | Şifremi unuttum - yeni şifre gönderimi        |
+| /api/auth/change-password                 | PATCH  | Şifre değiştirme (JWT ile)                    |
+| /api/profile                              | GET    | Kullanıcı profil bilgileri + stajlar          |
+| /api/profile                              | PATCH  | Profil bilgilerini güncelleme                 |
+| /api/internship/voluntary                 | POST   | Gönüllü staj başvurusu yap                    |
+| /api/internship/compulsory                | POST   | Zorunlu staj başvurusu yap                    |
+| /api/internship/[id]                      | GET    | Tekil staj başvurusunu detaylı görüntüle      |
+| /api/internship/[id]/update-document      | PATCH  | Belgeyi güncelle (sadece seçilen belgeler)    |
 
-🔜 Sorumlu Paneli (Onay / Red)
 
-🔜 E-posta Bildirimleri (Başvuru durumu vs.)
+| /api/admin/internships                    | GET    | Tüm başvuruları listele (COORDINATOR)         |
+| /api/admin/internships/[id]/approve       | PATCH  | Stajı onayla ve öğrenciye e-posta gönder      |
+| /api/admin/internships/[id]/reject        | PATCH  | Stajı reddet ve öğrenciye e-posta gönder      |
+| /api/admin/dashboard                      | GET    | Admin dashboard istatistikleri                |
+| /api/admin/internships/[id]/detail        | GET    | Başvuru ve öğrenci detaylarını getir          |
 
-🔜 Admin özellikleri (gerekirse)
+---
 
-👨‍💻 Geliştirme
+## 🛠️ Kurulum
 
-bash
-
+```bash
 npm install
 npx prisma generate
 npx prisma migrate dev --name init
 npm run dev
+```
 
+---
 
-Hazırlayan: Ferit Yaşar yapay zekadan destek alınarak  dökümantasyon hazırlanmıştır.
+## 📄 Ortam Değişkenleri (.env)
+
+```env
+DATABASE_URL="postgresql://..."
+JWT_SECRET=supersecretkey
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=youremail@example.com
+SMTP_PASS=yourpassword
+```
+
+---
+
+## 👨‍💻 Geliştirici: Ferit Yaşar
