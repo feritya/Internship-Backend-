@@ -98,4 +98,4 @@ SMTP_PASS=yourpassword
 
 ---
 
-## 👨‍💻 Geliştirici: Ferit Yaşar
+## 👨‍💻 Geliştirici: Ferit Yaşar AI dan yardım alınarak hazırlanmıştır.
